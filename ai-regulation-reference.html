@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS AI Regulatory Reference — Seema Sherief</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f8fc;
+  --white: #ffffff;
+  --surface: #ffffff;
+  --surface2: #f0f2f8;
+  --border: #e4e7f0;
+  --border-mid: #d0d5e8;
+
+  --indigo: #4f46e5;
+  --indigo-light: #eef2ff;
+  --indigo-mid: #c7d2fe;
+  --indigo-dark: #3730a3;
+
+  --coral: #f43f5e;
+  --coral-light: #fff1f3;
+  --coral-mid: #fecdd3;
+
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+  --amber-mid: #fde68a;
+
+  --sage: #059669;
+  --sage-light: #ecfdf5;
+  --sage-mid: #a7f3d0;
+
+  --violet: #7c3aed;
+  --violet-light: #f5f3ff;
+  --violet-mid: #ddd6fe;
+
+  --sky: #0284c7;
+  --sky-light: #f0f9ff;
+  --sky-mid: #bae6fd;
+
+  --text: #1e1b4b;
+  --text-body: #374151;
+  --text-muted: #6b7280;
+  --text-faint: #9ca3af;
+
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --shadow-sm: 0 1px 3px rgba(79,70,229,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(79,70,229,0.1), 0 2px 4px rgba(0,0,0,0.04);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text-body);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+.topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:64px;box-shadow:var(--shadow-sm)}
+.logo{display:flex;align-items:center;gap:14px}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--indigo),var(--violet));border-radius:10px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:500;color:#fff;letter-spacing:-0.5px;box-shadow:0 2px 8px rgba(79,70,229,0.3)}
+.logo-name{font-family:var(--serif);font-size:20px;color:var(--text);font-weight:600}
+.logo-sub{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:14px}
+.status-pill{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--sage);background:var(--sage-light);border:1px solid var(--sage-mid);padding:4px 12px;border-radius:20px;font-weight:500}
+.status-dot{width:6px;height:6px;background:var(--sage);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.author-tag{font-family:var(--mono);font-size:11px;color:var(--text-muted);background:var(--surface2);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
+
+.nav{display:flex;gap:0;padding:0 36px;background:var(--white);border-bottom:1.5px solid var(--border);position:sticky;top:64px;z-index:99;overflow-x:auto}
+.nav-item{padding:15px 20px;font-size:12px;font-family:var(--sans);font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;letter-spacing:.2px;white-space:nowrap}
+.nav-item:hover{color:var(--indigo);background:var(--indigo-light)}
+.nav-item.active{color:var(--indigo);border-bottom-color:var(--indigo);background:var(--indigo-light)}
+
+.panel{display:none}
+.panel.active{display:block}
+.main{padding:36px;max-width:1360px;margin:0 auto}
+
+.page-header{margin-bottom:32px;animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.page-title{font-family:var(--serif);font-size:30px;color:var(--text);margin-bottom:5px;font-weight:600}
+.page-subtitle{font-size:13px;color:var(--text-muted);letter-spacing:.3px}
+
+.card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:22px;transition:box-shadow .2s,border-color .2s;box-shadow:var(--shadow-sm)}
+.card:hover{box-shadow:var(--shadow-md);border-color:var(--border-mid)}
+.card-label{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;font-weight:500}
+.card-value{font-size:34px;font-weight:700;line-height:1;margin-bottom:6px;font-family:var(--mono)}
+.card-delta{font-size:12px;color:var(--text-muted)}
+
+.stat-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;box-shadow:var(--shadow-sm)}
+
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.mt-20{margin-top:20px}
+.mt-16{margin-top:16px}
+
+.section-label{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;display:flex;align-items:center;gap:10px;font-weight:500}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:5px;font-family:var(--mono);font-size:10px;letter-spacing:.3px;font-weight:600}
+.badge-critical{background:var(--coral-light);color:var(--coral);border:1px solid var(--coral-mid)}
+.badge-high{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+.badge-medium{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-mid)}
+.badge-low{background:var(--sage-light);color:var(--sage);border:1px solid var(--sage-mid)}
+.badge-info{background:var(--indigo-light);color:var(--indigo);border:1px solid var(--indigo-mid)}
+.badge-sky{background:var(--sky-light);color:var(--sky);border:1px solid var(--sky-mid)}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:var(--radius-md);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border:none}
+.btn-primary{background:var(--indigo);color:#fff}
+.btn-primary:hover{background:var(--indigo-dark);box-shadow:0 4px 12px rgba(79,70,229,0.3)}
+.btn-outline{background:transparent;color:var(--text-muted);border:1.5px solid var(--border)}
+.btn-outline:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-light)}
+
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-muted);padding:10px 14px;border-bottom:1.5px solid var(--border);font-weight:500}
+td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text-body)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--indigo-light)}
+
+.text-danger{color:var(--coral)}
+.text-warn{color:var(--amber)}
+.text-safe{color:var(--sage)}
+.text-accent{color:var(--indigo)}
+.text-muted{color:var(--text-muted)}
+.text-mono{font-family:var(--mono)}
+.text-xs{font-size:11px}
+
+.search-box{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:11px 16px;color:var(--text-body);font-family:var(--sans);font-size:13px;outline:none;transition:all .2s}
+.search-box:focus{border-color:var(--indigo);background:var(--white);box-shadow:0 0 0 3px rgba(79,70,229,0.1)}
+.search-box::placeholder{color:var(--text-faint)}
+
+.art-row{display:grid;grid-template-columns:120px 1fr auto;align-items:start;gap:16px;padding:14px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s;border-radius:var(--radius-sm)}
+.art-row:hover{background:var(--indigo-light);border-radius:var(--radius-md)}
+.art-row:last-child{border-bottom:none}
+.art-code{font-family:var(--mono);font-size:11px;color:var(--indigo);margin-bottom:3px;font-weight:600}
+.art-fw{font-family:var(--mono);font-size:10px;color:var(--text-faint)}
+.art-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.art-desc{font-size:12px;color:var(--text-muted);line-height:1.5}
+.art-badges{display:flex;flex-direction:column;gap:5px;align-items:flex-end;min-width:90px}
+.art-view{font-size:11px;color:var(--text-faint);font-family:var(--mono)}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(30,27,75,0.4);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-xl);padding:36px;max-width:660px;width:100%;max-height:88vh;overflow-y:auto;animation:modalIn .25s ease;box-shadow:var(--shadow-md)}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(-8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-art{font-family:var(--mono);font-size:11px;color:var(--indigo);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.modal-title{font-family:var(--serif);font-size:24px;color:var(--text);margin-bottom:4px;font-weight:600}
+.modal-fw{font-size:12px;color:var(--text-muted);margin-bottom:22px;font-family:var(--mono)}
+.modal-section{margin-bottom:16px}
+.modal-section-label{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;font-weight:500}
+.modal-section-body{font-size:13px;color:var(--text-body);line-height:1.75}
+.modal-scenario{background:var(--indigo-light);border-left:3px solid var(--indigo);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:13px 16px;font-size:13px;color:#3730a3;line-height:1.65;margin:16px 0;font-style:italic}
+.modal-fine{background:var(--amber-light);border:1.5px solid var(--amber-mid);border-radius:var(--radius-md);padding:14px 16px;margin:16px 0}
+.modal-fine-label{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.modal-fine-val{font-size:14px;color:#92400e;font-weight:600}
+.modal-why{background:var(--surface2);border-radius:var(--radius-md);padding:13px 16px;font-size:13px;color:var(--text-body);line-height:1.65}
+.modal-close{float:right;background:var(--surface2);border:1.5px solid var(--border);color:var(--text-muted);border-radius:var(--radius-sm);padding:6px 14px;font-family:var(--mono);font-size:11px;cursor:pointer;font-weight:500}
+.modal-close:hover{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-light)}
+
+.fw-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;padding-bottom:16px;border-bottom:1.5px solid var(--border)}
+.fw-name{font-family:var(--serif);font-size:22px;color:var(--text);margin-bottom:4px;font-weight:600}
+.fw-meta{font-size:12px;color:var(--text-muted)}
+.fw-stats{display:flex;gap:24px;flex-shrink:0}
+.fw-stat{text-align:right}
+.fw-stat-n{font-family:var(--mono);font-size:20px;font-weight:700}
+.fw-stat-l{font-family:var(--mono);font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+
+.fine-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.fine-card{border-radius:var(--radius-md);padding:13px 15px;border:1.5px solid var(--border)}
+.fine-card-label{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.fine-card-val{font-size:15px;color:var(--text);font-weight:700;line-height:1.3;font-family:var(--mono)}
+.fine-card-sub{font-size:11px;color:var(--text-muted);margin-top:3px}
+
+.compare-row{display:grid;grid-template-columns:180px repeat(4,1fr);gap:0;border-bottom:1px solid var(--border);font-size:12px}
+.compare-row:last-child{border-bottom:none}
+.compare-row:hover{background:var(--indigo-light)}
+.compare-cell{padding:12px 14px;border-right:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.compare-cell:last-child{border-right:none}
+.compare-head{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;font-weight:500}
+.check-yes{color:var(--sage);font-size:15px;font-weight:700}
+.check-partial{color:var(--amber);font-size:11px;font-family:var(--mono);font-weight:600}
+.check-no{color:var(--text-faint);font-size:14px}
+
+.story-quote{font-family:var(--serif);font-size:17px;color:var(--text);line-height:1.75;font-style:italic;margin-bottom:16px;padding:16px 20px;background:var(--violet-light);border-left:4px solid var(--violet);border-radius:0 var(--radius-md) var(--radius-md) 0}
+
+.timeline-item{display:flex;gap:16px;padding-bottom:20px;position:relative}
+.timeline-item::before{content:'';position:absolute;left:15px;top:34px;bottom:0;width:2px;background:var(--border)}
+.timeline-item:last-child::before{display:none}
+.timeline-dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;flex-shrink:0;border:2px solid;font-family:var(--mono);font-weight:600;background:var(--white)}
+.timeline-content{flex:1;padding-top:4px}
+.timeline-title{font-size:13px;font-weight:600;margin-bottom:3px;color:var(--text)}
+.timeline-body{font-size:12px;color:var(--text-muted);line-height:1.55}
+
+.fw-card{border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;cursor:pointer;transition:all .2s;background:var(--white);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between}
+.fw-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-mark">CS</div>
+    <div>
+      <div class="logo-name">CS AI Regulatory Reference</div>
+      <div class="logo-sub">EU AI Act · GDPR · CCPA · SB 942</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="status-pill"><div class="status-dot"></div>March 2026</div>
+    <div class="author-tag">Seema Sherief</div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-item active" onclick="showPanel('overview')">Overview</div>
+  <div class="nav-item" onclick="showPanel('euaiact')">EU AI Act</div>
+  <div class="nav-item" onclick="showPanel('gdpr')">GDPR</div>
+  <div class="nav-item" onclick="showPanel('ccpa')">CCPA</div>
+  <div class="nav-item" onclick="showPanel('sb942')">SB 942</div>
+  <div class="nav-item" onclick="showPanel('compare')">Cross-framework</div>
+  <div class="nav-item" onclick="showPanel('story')">Why this matters</div>
+</div>
+
+<div class="main">
+
+<!-- ══════════ OVERVIEW ══════════ -->
+<div class="panel active" id="panel-overview">
+  <div class="page-header">
+    <div class="page-title">Regulatory overview</div>
+    <div class="page-subtitle">Four frameworks · 22 CS-relevant articles · All fines verified from primary sources</div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:24px">
+    <div class="stat-card" style="border-left:4px solid var(--indigo)">
+      <div class="card-label" style="color:var(--indigo)">Total articles</div>
+      <div class="card-value" style="color:var(--indigo)">22</div>
+      <div class="card-delta">across 4 frameworks</div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid var(--coral)">
+      <div class="card-label" style="color:var(--coral)">Critical severity</div>
+      <div class="card-value" style="color:var(--coral)">9</div>
+      <div class="card-delta">require immediate attention</div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid #c2410c">
+      <div class="card-label" style="color:#c2410c">High severity</div>
+      <div class="card-value" style="color:#c2410c">11</div>
+      <div class="card-delta">require planned remediation</div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid var(--amber)">
+      <div class="card-label" style="color:var(--amber)">Max combined fine</div>
+      <div class="card-value" style="color:var(--amber)">€35M</div>
+      <div class="card-delta">or 7% global turnover</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:24px">
+    <div class="card">
+      <div class="section-label">Search all 22 articles</div>
+      <input class="search-box" type="text" id="globalSearch" placeholder="Search articles, scenarios, fines, frameworks..." oninput="globalSearch()">
+      <div id="searchResults" style="margin-top:12px"></div>
+    </div>
+    <div class="card">
+      <div class="section-label">Jump to framework</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+
+        <div class="fw-card" onclick="showPanel('euaiact')" style="border-left:4px solid var(--indigo)">
+          <div>
+            <div style="font-weight:600;font-size:13px;color:var(--text)">EU AI Act</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">In force Aug 2024 · Fully applicable Aug 2026</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-info">8 articles</span>
+            <span style="color:var(--indigo);font-size:16px">→</span>
+          </div>
+        </div>
+
+        <div class="fw-card" onclick="showPanel('gdpr')" style="border-left:4px solid var(--coral)">
+          <div>
+            <div style="font-weight:600;font-size:13px;color:var(--text)">GDPR</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">In force May 2018 · €5.88B in fines to date</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-critical">7 articles</span>
+            <span style="color:var(--coral);font-size:16px">→</span>
+          </div>
+        </div>
+
+        <div class="fw-card" onclick="showPanel('ccpa')" style="border-left:4px solid var(--amber)">
+          <div>
+            <div style="font-weight:600;font-size:13px;color:var(--text)">CCPA / CPRA</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">In force Jan 2020 · California residents</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-medium">4 sections</span>
+            <span style="color:var(--amber);font-size:16px">→</span>
+          </div>
+        </div>
+
+        <div class="fw-card" onclick="showPanel('sb942')" style="border-left:4px solid var(--sage)">
+          <div>
+            <div style="font-weight:600;font-size:13px;color:var(--text)">California AI Transparency Act (SB 942)</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">In effect Jan 2026 · $5,000/day per violation</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-low">3 sections</span>
+            <span style="color:var(--sage);font-size:16px">→</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">The four scenarios this reference is built to prevent</div>
+    <div class="grid-2" style="gap:14px">
+      <div style="background:var(--coral-light);border-radius:var(--radius-md);padding:16px 18px;border:1.5px solid var(--coral-mid)">
+        <div style="font-size:13px;font-weight:600;margin-bottom:5px;color:#9f1239">A customer denied service unfairly by AI</div>
+        <div style="font-size:12px;color:#be123c;line-height:1.6">An automated triage system routes a customer away from human support. No knowledge AI made the decision. No recourse to challenge it. At scale, this becomes systemic discrimination.</div>
+      </div>
+      <div style="background:var(--amber-light);border-radius:var(--radius-md);padding:16px 18px;border:1.5px solid var(--amber-mid)">
+        <div style="font-size:13px;font-weight:600;margin-bottom:5px;color:#78350f">A biased AI decision at scale</div>
+        <div style="font-size:12px;color:#92400e;line-height:1.6">A CS AI trained on historical data inherits those biases. Non-native speakers, older customers, accessibility needs - systematically underserved. Invisible until measured. Then catastrophic.</div>
+      </div>
+      <div style="background:var(--indigo-light);border-radius:var(--radius-md);padding:16px 18px;border:1.5px solid var(--indigo-mid)">
+        <div style="font-size:13px;font-weight:600;margin-bottom:5px;color:#3730a3">A fine the company didn't see coming</div>
+        <div style="font-size:12px;color:#4338ca;line-height:1.6">A third-party CS AI tool transfers customer data across regions without adequate legal basis. A supervisory authority investigation follows. The fine arrives before the compliance team knew there was a problem.</div>
+      </div>
+      <div style="background:var(--violet-light);border-radius:var(--radius-md);padding:16px 18px;border:1.5px solid var(--violet-mid)">
+        <div style="font-size:13px;font-weight:600;margin-bottom:5px;color:#4c1d95">A system change with no governance trail</div>
+        <div style="font-size:12px;color:#5b21b6;line-height:1.6">A CS AI's model is updated without notifying the deploying organisation. They cannot maintain an accurate system record. When a regulator asks for documentation, there is none.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ EU AI ACT ══════════ -->
+<div class="panel" id="panel-euaiact">
+  <div class="page-header">
+    <div class="page-title">EU AI Act</div>
+    <div class="page-subtitle">Regulation 2024/1689 · In force August 2024 · Fully applicable August 2026</div>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="fw-header">
+      <div>
+        <div class="fw-name">EU Artificial Intelligence Act</div>
+        <div class="fw-meta" style="margin-top:4px">World's first comprehensive AI regulation · Risk-based framework · 4 tiers · Enforced by EU AI Office and national authorities</div>
+      </div>
+      <div class="fw-stats">
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--coral)">€35M</div><div class="fw-stat-l">max fine</div></div>
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--indigo)">8</div><div class="fw-stat-l">CS articles</div></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.75;margin-bottom:16px">The EU AI Act uses a risk-based approach - the higher the risk the system poses, the stricter the obligations. Most CS AI falls into <strong style="color:var(--indigo)">Limited Risk</strong>, triggering transparency obligations under Article 50. Systems making consequential decisions about customers may approach High Risk and warrant elevated scrutiny.</div>
+    <div class="fine-grid">
+      <div class="fine-card" style="background:var(--coral-light);border-color:var(--coral-mid)">
+        <div class="fine-card-label" style="color:var(--coral)">Prohibited practices (Art. 5)</div>
+        <div class="fine-card-val" style="color:#9f1239">€35 million</div>
+        <div class="fine-card-sub" style="color:#be123c">or 7% of global annual turnover</div>
+      </div>
+      <div class="fine-card" style="background:#fff7ed;border-color:#fed7aa">
+        <div class="fine-card-label" style="color:#c2410c">High-risk system obligations</div>
+        <div class="fine-card-val" style="color:#9a3412">€15 million</div>
+        <div class="fine-card-sub" style="color:#c2410c">or 3% of global annual turnover</div>
+      </div>
+      <div class="fine-card" style="background:var(--amber-light);border-color:var(--amber-mid)">
+        <div class="fine-card-label" style="color:var(--amber)">Transparency violations (Art. 50)</div>
+        <div class="fine-card-val" style="color:#78350f">€7.5 million</div>
+        <div class="fine-card-sub" style="color:#92400e">or 1.5% of global annual turnover</div>
+      </div>
+      <div class="fine-card" style="background:var(--surface2)">
+        <div class="fine-card-label">Misleading information to authorities</div>
+        <div class="fine-card-val">€7.5 million</div>
+        <div class="fine-card-sub">or 1.5% of global annual turnover</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-label">CS-relevant articles — click any row to view full detail</div>
+    <div id="euaiact-articles"></div>
+  </div>
+</div>
+
+<!-- ══════════ GDPR ══════════ -->
+<div class="panel" id="panel-gdpr">
+  <div class="page-header">
+    <div class="page-title">GDPR</div>
+    <div class="page-subtitle">Regulation 2016/679 · In force May 2018 · €5.88 billion in fines issued to date</div>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="fw-header">
+      <div>
+        <div class="fw-name">General Data Protection Regulation</div>
+        <div class="fw-meta" style="margin-top:4px">EU/EEA · Any organisation processing EU resident data · Enforced by national Data Protection Authorities</div>
+      </div>
+      <div class="fw-stats">
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--coral)">€20M</div><div class="fw-stat-l">max fine</div></div>
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--coral)">7</div><div class="fw-stat-l">CS articles</div></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.75;margin-bottom:16px">GDPR predates the EU AI Act but applies fully to any AI system processing personal data - which includes virtually every CS AI system. The two regulations operate together. Complying with one does not substitute for the other. Most common CS violations: lawful basis failures, transparency gaps, inadequate security.</div>
+    <div class="fine-grid">
+      <div class="fine-card" style="background:var(--coral-light);border-color:var(--coral-mid)">
+        <div class="fine-card-label" style="color:var(--coral)">Tier 2 — most severe (Arts. 5, 6, 7, 9)</div>
+        <div class="fine-card-val" style="color:#9f1239">€20 million</div>
+        <div class="fine-card-sub" style="color:#be123c">or 4% of global annual turnover</div>
+      </div>
+      <div class="fine-card" style="background:#fff7ed;border-color:#fed7aa">
+        <div class="fine-card-label" style="color:#c2410c">Tier 1 — less severe (Arts. 25, 32, 33)</div>
+        <div class="fine-card-val" style="color:#9a3412">€10 million</div>
+        <div class="fine-card-sub" style="color:#c2410c">or 2% of global annual turnover</div>
+      </div>
+      <div class="fine-card" style="background:var(--amber-light);border-color:var(--amber-mid)">
+        <div class="fine-card-label" style="color:var(--amber)">Real example — OpenAI Italy Dec 2024</div>
+        <div class="fine-card-val" style="color:#78350f">€15 million</div>
+        <div class="fine-card-sub" style="color:#92400e">Processing without lawful basis, Art. 6</div>
+      </div>
+      <div class="fine-card" style="background:var(--surface2)">
+        <div class="fine-card-label">Real example — Netflix Netherlands 2024</div>
+        <div class="fine-card-val">€4.75 million</div>
+        <div class="fine-card-sub">Insufficient transparency, Arts. 12–13</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-label">CS-relevant articles — click any row to view full detail</div>
+    <div id="gdpr-articles"></div>
+  </div>
+</div>
+
+<!-- ══════════ CCPA ══════════ -->
+<div class="panel" id="panel-ccpa">
+  <div class="page-header">
+    <div class="page-title">CCPA / CPRA</div>
+    <div class="page-subtitle">California Consumer Privacy Act · In force January 2020 · Amended by CPRA November 2020</div>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="fw-header">
+      <div>
+        <div class="fw-name">California Consumer Privacy Act</div>
+        <div class="fw-meta" style="margin-top:4px">Applies if: $25M+ revenue · OR 100K+ consumers' data · OR 50%+ revenue from selling data</div>
+      </div>
+      <div class="fw-stats">
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--amber)">$7,500</div><div class="fw-stat-l">per violation</div></div>
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--amber)">4</div><div class="fw-stat-l">CS sections</div></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.75;margin-bottom:16px">For large enterprises with CS AI systems interacting with California customers, CCPA obligations are virtually certain to apply. The most overlooked gap: organisations enabling vendor data sharing toggles in admin settings without realising this triggers opt-out obligations. At CS scale, unresolved violations accumulate rapidly.</div>
+    <div class="fine-grid">
+      <div class="fine-card" style="background:var(--coral-light);border-color:var(--coral-mid)">
+        <div class="fine-card-label" style="color:var(--coral)">Intentional violation</div>
+        <div class="fine-card-val" style="color:#9f1239">$7,500</div>
+        <div class="fine-card-sub" style="color:#be123c">per violation · per consumer</div>
+      </div>
+      <div class="fine-card" style="background:var(--amber-light);border-color:var(--amber-mid)">
+        <div class="fine-card-label" style="color:var(--amber)">Unintentional violation</div>
+        <div class="fine-card-val" style="color:#78350f">$2,500</div>
+        <div class="fine-card-sub" style="color:#92400e">per violation · per consumer</div>
+      </div>
+      <div class="fine-card" style="background:var(--coral-light);border-color:var(--coral-mid)">
+        <div class="fine-card-label" style="color:var(--coral)">Violations involving minors</div>
+        <div class="fine-card-val" style="color:#9f1239">$7,500</div>
+        <div class="fine-card-sub" style="color:#be123c">automatic — intent irrelevant</div>
+      </div>
+      <div class="fine-card" style="background:var(--surface2)">
+        <div class="fine-card-label">Enforcement</div>
+        <div class="fine-card-val" style="font-size:12px">CPPA + California AG</div>
+        <div class="fine-card-sub">No private right of action</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-label">CS-relevant sections — click any row to view full detail</div>
+    <div id="ccpa-articles"></div>
+  </div>
+</div>
+
+<!-- ══════════ SB 942 ══════════ -->
+<div class="panel" id="panel-sb942">
+  <div class="page-header">
+    <div class="page-title">SB 942 - California AI Transparency Act</div>
+    <div class="page-subtitle">Signed September 2024 · In effect January 1, 2026 · $5,000 per violation per day</div>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="fw-header">
+      <div>
+        <div class="fw-name">California AI Transparency Act</div>
+        <div class="fw-meta" style="margin-top:4px">Applies to: GenAI systems with 1M+ monthly users · publicly accessible in California · producing image/video/audio</div>
+      </div>
+      <div class="fw-stats">
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--sage)">$1.8M+</div><div class="fw-stat-l">per year</div></div>
+        <div class="fw-stat"><div class="fw-stat-n" style="color:var(--sage)">3</div><div class="fw-stat-l">CS sections</div></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.75;margin-bottom:16px">SB 942 applies specifically to generative AI producing <strong style="color:var(--text)">image, video, or audio content</strong>. Text-only CS chatbots and routing systems are currently outside scope. However, any CS AI using AI-generated voice responses, virtual video representatives, or synthetic media falls squarely within it. CCPA continues to apply regardless.</div>
+    <div class="fine-grid">
+      <div class="fine-card" style="background:var(--coral-light);border-color:var(--coral-mid)">
+        <div class="fine-card-label" style="color:var(--coral)">Each day of non-compliance</div>
+        <div class="fine-card-val" style="color:#9f1239">$5,000</div>
+        <div class="fine-card-sub" style="color:#be123c">per violation type · per day</div>
+      </div>
+      <div class="fine-card" style="background:var(--amber-light);border-color:var(--amber-mid)">
+        <div class="fine-card-label" style="color:var(--amber)">One year of non-compliance</div>
+        <div class="fine-card-val" style="color:#78350f">$1,825,000+</div>
+        <div class="fine-card-sub" style="color:#92400e">per violation type</div>
+      </div>
+      <div class="fine-card" style="background:var(--sage-light);border-color:var(--sage-mid)">
+        <div class="fine-card-label" style="color:var(--sage)">Third-party licensee violations</div>
+        <div class="fine-card-val" style="color:#065f46;font-size:12px">Injunctive relief</div>
+        <div class="fine-card-sub" style="color:var(--sage)">plus reasonable attorney fees</div>
+      </div>
+      <div class="fine-card" style="background:var(--surface2)">
+        <div class="fine-card-label">Enforcement authority</div>
+        <div class="fine-card-val" style="font-size:12px">CA AG · City attorneys · County counsel</div>
+        <div class="fine-card-sub">No private right of action</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-label">CS-relevant sections — click any row to view full detail</div>
+    <div id="sb942-articles"></div>
+  </div>
+</div>
+
+<!-- ══════════ CROSS-FRAMEWORK ══════════ -->
+<div class="panel" id="panel-compare">
+  <div class="page-header">
+    <div class="page-title">Cross-framework comparison</div>
+    <div class="page-subtitle">Which obligation appears in which framework - mapped by CS AI scenario</div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="section-label">Obligation coverage matrix</div>
+    <div style="overflow-x:auto">
+      <div style="min-width:640px">
+        <div class="compare-row" style="background:var(--surface2)">
+          <div class="compare-cell compare-head">Obligation</div>
+          <div class="compare-cell compare-head" style="color:var(--indigo)">EU AI Act</div>
+          <div class="compare-cell compare-head" style="color:var(--coral)">GDPR</div>
+          <div class="compare-cell compare-head" style="color:var(--amber)">CCPA</div>
+          <div class="compare-cell compare-head" style="color:var(--sage)">SB 942</div>
+        </div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Disclose AI to customers</div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 50</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 13</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">§1798.100</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">§22757.3</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Pre-deployment risk assessment</div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 9</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 35 DPIA</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Bias testing of training data</div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 10</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 5</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Human oversight and override</div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 14</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 22</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Deployer / controller duties</div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 26</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 28</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Customer data rights / access</div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 13</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Arts. 15–22</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">§1798.100–120</span></div><div class="compare-cell"><span class="check-no">—</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Opt-out of data sale/sharing</div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-partial">partial</span><span class="text-xs text-muted">Art. 6</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">§1798.120</span></div><div class="compare-cell"><span class="check-no">—</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Incident notification</div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 73</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">Art. 33 (72hr)</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">AI content watermarking</div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">§22757.4</span></div></div>
+        <div class="compare-row"><div class="compare-cell" style="font-size:12px;font-weight:600">Free AI detection tool</div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-no">—</span></div><div class="compare-cell"><span class="check-yes">✓</span><span class="text-xs text-muted">§22757.2</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Implementation timeline</div>
+    <div style="padding:8px 0">
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:var(--coral);color:var(--coral)">!</div>
+        <div class="timeline-content">
+          <div class="timeline-title">February 2025 - EU AI Act: prohibited practices in force</div>
+          <div class="timeline-body">AI literacy obligations active. Prohibited AI practices enforceable. Organisations must have reviewed their AI systems against the prohibited practices list.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:#c2410c;color:#c2410c">!</div>
+        <div class="timeline-content">
+          <div class="timeline-title">August 2025 - EU AI Act: GPAI model obligations active</div>
+          <div class="timeline-body">General purpose AI model providers face full transparency and copyright obligations. Governance rules for high-level AI now enforceable.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:var(--sage);color:var(--sage)">✓</div>
+        <div class="timeline-content">
+          <div class="timeline-title">January 2026 - SB 942 in effect</div>
+          <div class="timeline-body">California AI Transparency Act now operative. Covered providers must have detection tools, manifest disclosure, and watermarking in place. $5,000/day penalty begins.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:var(--indigo);color:var(--indigo)">→</div>
+        <div class="timeline-content">
+          <div class="timeline-title">August 2026 - EU AI Act: full application</div>
+          <div class="timeline-body">All provisions fully applicable. Limited Risk transparency obligations (Art. 50) fully enforceable. CS AI systems must be compliant with all applicable articles.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:var(--border-mid);color:var(--text-muted)">→</div>
+        <div class="timeline-content">
+          <div class="timeline-title">August 2027 - High-risk AI in regulated products</div>
+          <div class="timeline-body">Extended transition period ends for high-risk AI systems embedded in regulated products. Full Annex III obligations enforceable across all categories.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ STORY ══════════ -->
+<div class="panel" id="panel-story">
+  <div class="page-header">
+    <div class="page-title">Why this reference was built</div>
+    <div class="page-subtitle">The methodology, the motivation, and what drove the article selection</div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="section-label">The starting point</div>
+      <div class="story-quote">"My starting point was not a regulatory framework. It was a concern. AI without guardrails is not just ineffective, it is dangerous."</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.75">I had been reading about AI systems deployed without adequate controls. When I started thinking about what this means for customer service specifically, systems making decisions about real customer at scale in real time, the concern became concrete. I started with the EU AI Act because it felt like the most structured answer to a question I was already asking: what does responsible AI deployment actually require, and who is accountable when it goes wrong?</div>
+    </div>
+    <div class="card">
+      <div class="section-label">How articles were selected</div>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.75;margin-bottom:14px">Each article was tested against one question: <em style="color:var(--indigo)">would this have prevented what happened to Tay? Would this protect a customer being denied service unfairly by an AI today?</em></div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.75;margin-bottom:14px">Articles were excluded when they addressed regulatory infrastructure irrelevant to a deploying organisation, applied exclusively to high-risk systems that most CS AI does not currently meet or duplicated obligations already captured more specifically elsewhere.</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.75">What emerged across all four frameworks is that the same four themes appear repeatedly. Just formalised differently: <strong style="color:var(--text)">transparency, fairness, human oversight, and accountability.</strong></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="section-label">What this reference does not cover — and why</div>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
+        <span class="badge badge-info" style="flex-shrink:0;margin-top:2px">excluded</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">EU AI Act - High-risk obligations (Articles 16–25)</div><div style="font-size:12px;color:var(--text-muted)">Applies only to high-risk AI systems as defined in Annex III. Most CS AI currently falls below this threshold. If a CS AI system makes consequential decisions about access to essential services, these articles become applicable and should be assessed separately.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
+        <span class="badge badge-info" style="flex-shrink:0;margin-top:2px">excluded</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">GDPR - Data Protection Officer obligations (Articles 37–39)</div><div style="font-size:12px;color:var(--text-muted)">DPO appointment depends on scale and nature of processing. Organisations processing customer data at significant scale should assess DPO requirements as a separate workstream.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">
+        <span class="badge badge-info" style="flex-shrink:0;margin-top:2px">excluded</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">National implementing legislation</div><div style="font-size:12px;color:var(--text-muted)">Spain has introduced AI Act fines of up to 7% of turnover. Several EU member states have introduced additional provisions beyond the Act. These require jurisdiction-specific assessment.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;padding:14px 0">
+        <span class="badge badge-sky" style="flex-shrink:0;margin-top:2px">scoped</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">SB 942 - text-only CS AI is currently outside scope</div><div style="font-size:12px;color:var(--text-muted)">SB 942 applies to GenAI producing image, video, or audio. Chatbots and routing systems generating text only are outside SB 942's current scope. CCPA continues to apply regardless.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">About this portfolio</div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.75;margin-bottom:16px">My background is 12 years in customer service operations at Amazon, working across Operations, Tech, Legal and senior leadership on systems that interact with customers at scale. I always wondered about what happens when systems that touch real customers fail? The operational consequences, the human cost, the gap between what was designed and what was deployed. AI governance is the formalisation of questions I have been asking in operational contexts.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="https://github.com/seemasherief/microsoft-tay-retrospective-compliance-analysis-" target="_blank" class="btn btn-primary">View Tay Case Study →</a>
+      <a href="https://github.com/seemasherief" target="_blank" class="btn btn-outline">GitHub Portfolio →</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">Close ✕</button>
+    <div class="modal-art" id="modalArt"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-fw" id="modalFw"></div>
+    <div class="modal-section">
+      <div class="modal-section-label">What it requires</div>
+      <div class="modal-section-body" id="modalDesc"></div>
+    </div>
+    <div class="modal-scenario" id="modalScenario"></div>
+    <div class="modal-section">
+      <div class="modal-section-label">Why this matters for CS AI</div>
+      <div class="modal-why" id="modalWhy"></div>
+    </div>
+    <div class="modal-fine">
+      <div class="modal-fine-label">Fine / consequence</div>
+      <div class="modal-fine-val" id="modalFine"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const articles = {
+  euaiact:[
+    {art:"Article 3",title:"Definitions - provider vs deployer",sev:"high",fw:"EU AI Act",
+     desc:"Determines whether your organisation is a provider (builds the AI) or a deployer (uses it). Most CS organisations are deployers of third-party AI tools. This distinction controls which obligations apply directly to you.",
+     scenario:"CS scenario: An organisation using a vendor's chatbot is a deployer - not a provider. Deployer obligations are set out in Article 26. Getting this wrong means skipping your actual obligations entirely.",
+     why:"Role misclassification is the most common way organisations unknowingly bypass their compliance duties. This article is where every EU AI Act assessment must start.",
+     fine:"No direct fine for misclassification - but downstream non-compliance carries full penalties up to €35M or 7% global turnover."},
+    {art:"Article 9",title:"Risk management system",sev:"critical",fw:"EU AI Act",
+     desc:"Requires a documented risk management process covering the AI system's entire lifecycle - before deployment, during operation, and after changes. Risk must be assessed for the specific deployment context, not in the abstract.",
+     scenario:"CS scenario: A chatbot that works safely in one market cannot be assumed safe in another without a context-specific risk assessment. This is the Xiaoice-to-Tay failure, now codified in law.",
+     why:"This is the single most important article for CS AI compliance. It requires proactive, documented risk work before deployment - not reactive cleanup after failure.",
+     fine:"Up to €15 million or 3% of global annual turnover for high-risk systems. For Limited Risk: supervisory authority action and remediation orders."},
+    {art:"Article 10",title:"Data governance - training data",sev:"critical",fw:"EU AI Act",
+     desc:"Training data must be examined for biases that could produce discriminatory outputs. Public data used for training is not automatically clean - it carries the biases of its source.",
+     scenario:"CS scenario: A CS AI trained on historical interaction logs learns from those logs. If certain customer groups were historically underserved, the model learns that pattern. Pre-launch bias evaluation is not optional.",
+     why:"Bias in training data produces biased outputs at scale. For CS AI interacting with millions of customers, the downstream harm is significant and systematic.",
+     fine:"Up to €15 million or 3% of global annual turnover."},
+    {art:"Article 13",title:"Transparency and information obligations",sev:"high",fw:"EU AI Act",
+     desc:"Customers must receive clear, accessible information about what the AI system does, its limitations, and who is responsible for it.",
+     scenario:"CS scenario: A customer routed away from human support by an AI triage system must understand that AI made that decision and know who they can contact to challenge it.",
+     why:"Transparency is the foundation of customer trust. An AI system that customers cannot understand or challenge is a liability - operationally and legally.",
+     fine:"Up to €15 million or 3% of global annual turnover."},
+    {art:"Article 14",title:"Human oversight",sev:"critical",fw:"EU AI Act",
+     desc:"The people responsible for a CS AI system must be able to understand what it is doing, monitor it in real time, and interrupt or override it when necessary. Manual cleanup after the fact does not meet this standard.",
+     scenario:"CS scenario: Tay generated harmful content for 16 hours while Microsoft manually deleted individual tweets. Article 14 requires a mechanism that prevents this - not one that responds to it.",
+     why:"Human oversight is what separates responsible AI deployment from abdication. A system running without the ability to be stopped is not governed - it is merely tolerated.",
+     fine:"Up to €15 million or 3% of global annual turnover."},
+    {art:"Article 26",title:"Deployer obligations",sev:"critical",fw:"EU AI Act",
+     desc:"Deployers must implement appropriate human oversight, monitor system performance, inform affected persons, and suspend the system where necessary. Vendor compliance does not substitute for deployer compliance.",
+     scenario:"CS scenario: An organisation using a vendor's CS AI chatbot remains responsible for how it behaves with their customers. If it discriminates, the deployer is accountable - not just the vendor.",
+     why:"This is the most directly relevant article for CS organisations using third-party AI tools. You cannot outsource your compliance obligations to your vendor.",
+     fine:"Up to €15 million or 3% of global annual turnover."},
+    {art:"Article 50",title:"Transparency obligations for chatbots",sev:"high",fw:"EU AI Act",
+     desc:"Providers of chatbots and conversational AI must ensure customers know they are interacting with AI - unless this is obvious from context. Disclosure must be clear and given before or at first interaction.",
+     scenario:"CS scenario: A CS chatbot that does not disclose its AI nature at the start of an interaction is in direct violation. The disclosure must be in plain language - not buried in a privacy policy.",
+     why:"This is the article the Tay incident most directly violated. Customers interacting with AI have a right to know. Anything less is deception by omission.",
+     fine:"Up to €7.5 million or 1.5% of global annual turnover."},
+    {art:"Annex III",title:"High-risk AI system screening",sev:"high",fw:"EU AI Act",
+     desc:"Provides the screening criteria for High Risk classification. CS AI must be assessed against each category before deployment. The 'access to essential services' category is most relevant for escalation and triage systems.",
+     scenario:"CS scenario: An escalation triage bot determining whether a customer receives human support should be screened against Annex III. See the Tay assessment repository for a worked example.",
+     why:"Misclassification is the compliance gap most organisations discover too late. The screening must be documented, defensible, and reviewed when the system's purpose changes.",
+     fine:"Failure to classify correctly means missing High Risk obligations - up to €35M or 7% global turnover."},
+  ],
+  gdpr:[
+    {art:"Article 5",title:"Principles of data processing",sev:"critical",fw:"GDPR",
+     desc:"Establishes seven foundational principles - lawfulness, fairness, transparency, purpose limitation, data minimisation, accuracy, and integrity. Every CS AI processing customer data must demonstrate compliance with all seven.",
+     scenario:"CS scenario: A CS AI collecting interaction data for service purposes and then using it to train the model is processing for a new purpose - a purpose limitation violation unless customers have been informed.",
+     why:"Article 5 is the root obligation. Every other GDPR article is either an elaboration or an enforcement mechanism for these seven principles. Start here.",
+     fine:"Up to €20 million or 4% of global annual turnover - the higher GDPR tier."},
+    {art:"Article 6",title:"Lawful basis for processing",sev:"critical",fw:"GDPR",
+     desc:"Every processing activity involving personal data requires a documented lawful basis. Legitimate interest, contract performance, and consent are most relevant for CS AI contexts.",
+     scenario:"CS scenario: A CS AI logging conversations, analysing sentiment, or using interaction history to personalise responses must identify and document the lawful basis for each type of processing separately.",
+     why:"Lawful basis is the first question any regulator will ask. Organisations that cannot answer it clearly have no foundation for any other compliance claim.",
+     fine:"Up to €20 million or 4% of global annual turnover. Real example: OpenAI fined €15M by Italy in December 2024 for processing without lawful basis."},
+    {art:"Article 13",title:"Information obligations to data subjects",sev:"high",fw:"GDPR",
+     desc:"Customers must be informed at the point of data collection - what data, for what purpose, on what legal basis, for how long, and who has access. A buried privacy notice does not meet this standard.",
+     scenario:"CS scenario: A customer interacting with a CS chatbot is having their conversation logged and potentially analysed for sentiment. They must be told this, clearly, before the interaction begins.",
+     why:"Transparency is not a courtesy - it is a legal obligation with significant consequences when ignored.",
+     fine:"Up to €20 million or 4% of global turnover. Real example: Netflix fined €4.75M by Dutch DPA in 2024 for insufficient transparency."},
+    {art:"Article 22",title:"Automated individual decision-making",sev:"critical",fw:"GDPR",
+     desc:"Data subjects have the right not to be subject to decisions based solely on automated processing producing significant effects - including the right to explanation and human review.",
+     scenario:"CS scenario: A CS AI automatically denying a customer access to a human agent, rejecting a refund claim, or closing a dispute without human review may trigger Article 22 obligations.",
+     why:"This article exists because automated decisions at scale can systematically disadvantage customer groups in ways no individual would notice - but that a compliance team must.",
+     fine:"Up to €20 million or 4% of global annual turnover."},
+    {art:"Article 25",title:"Data protection by design and by default",sev:"high",fw:"GDPR",
+     desc:"Privacy must be built into CS AI systems at the design stage. Default settings must process only the minimum personal data necessary.",
+     scenario:"CS scenario: A CS AI collecting full conversation transcripts by default, when keyword extraction would serve the same purpose, fails the data minimisation by default requirement.",
+     why:"Privacy by design is cheaper at the start than privacy retrofitting after a breach. Regulators increasingly treat design failures as evidence of systemic non-compliance.",
+     fine:"Up to €10 million or 2% of global annual turnover."},
+    {art:"Article 32",title:"Security of processing",sev:"high",fw:"GDPR",
+     desc:"Appropriate technical and organisational measures must protect personal data. For CS AI at scale, this includes access controls, encryption, and breach response procedures.",
+     scenario:"CS scenario: A CS AI deployment with no access control between test and live environments - exactly the gap exposed by Tay's accidental reactivation - would fail this test directly.",
+     why:"The Tay accidental reactivation was, at its core, an Article 32 failure - inadequate organisational measures to prevent accidental public reactivation of a known-dangerous system.",
+     fine:"Up to €10 million or 2% of global turnover. Real example: Meta fined €251M in 2024 for failure to implement appropriate security measures."},
+    {art:"Article 33",title:"Breach notification - 72 hours",sev:"high",fw:"GDPR",
+     desc:"Personal data breaches must be notified to the relevant supervisory authority within 72 hours of discovery. An accidental reactivation of a CS AI processing customer data without authorisation is a breach.",
+     scenario:"CS scenario: The Tay accidental reactivation on March 30, 2016, had GDPR been in force, would have triggered a 72-hour notification obligation to the supervisory authority.",
+     why:"72 hours is shorter than most organisations' incident response planning assumes. The clock starts at discovery - which means monitoring must be in place to ensure timely discovery.",
+     fine:"Up to €10 million or 2% of global annual turnover."},
+  ],
+  ccpa:[
+    {art:"Section 1798.100",title:"Right to know",sev:"high",fw:"CCPA",
+     desc:"California consumers have the right to know what personal information is collected about them, the purposes it is used for, and whether it is sold or disclosed to third parties.",
+     scenario:"CS scenario: A California customer interacting with a CS chatbot has the right to know their conversation is recorded, what data is collected, and whether it is shared with the AI vendor.",
+     why:"At CS scale, millions of California interactions, unresolved right-to-know violations accumulate rapidly. $2,500 per violation is not trivial when multiplied by customer volume.",
+     fine:"$7,500 per intentional violation · $2,500 per unintentional violation."},
+    {art:"Section 1798.105",title:"Right to deletion",sev:"high",fw:"CCPA",
+     desc:"Consumers can request deletion of their personal information. Organisations must be able to identify, locate, and delete a specific customer's data, including data used in model training.",
+     scenario:"CS scenario: A customer requests deletion of all personal data. The organisation must demonstrate it can honour this for data in the CS AI system, including conversation logs and derived inferences.",
+     why:"Deletion from a trained model is technically complex - but complexity is not a defence. Organisations must design for deletion capability before deployment, not after a request arrives.",
+     fine:"$7,500 per intentional violation."},
+    {art:"Section 1798.120",title:"Right to opt out of data sale/sharing",sev:"critical",fw:"CCPA",
+     desc:"If customer interaction data is shared with an AI vendor for any purpose constituting a 'sale' or 'sharing' under CCPA, customers must be offered a clear opt-out.",
+     scenario:"CS scenario: Enabling the data sharing toggle in a CS AI vendor's admin settings, allowing the vendor to use customer data to improve their models, may constitute sharing under CCPA without the required opt-out.",
+     why:"This is the silent compliance gap in vendor contracts. Many organisations enable data sharing toggles without realising this triggers opt-out obligations.",
+     fine:"$7,500 per intentional violation per consumer."},
+    {art:"Section 1798.135",title:"Opt-out method requirements",sev:"medium",fw:"CCPA",
+     desc:"Businesses must provide a clear 'Do Not Sell or Share My Personal Information' link. For CS AI deployments processing California customer data, this must be visible and functional.",
+     scenario:"CS scenario: An organisation's CS AI privacy notice must include this opt-out mechanism if any customer data flows to third-party vendors.",
+     why:"The opt-out link is frequently missing from CS AI privacy notices because those notices are copied from general frameworks that predate CS AI deployments.",
+     fine:"$2,500 per unintentional violation · $7,500 per intentional violation."},
+  ],
+  sb942:[
+    {art:"Section 22757.2",title:"AI detection tool requirement",sev:"high",fw:"SB 942",
+     desc:"Covered providers must make a free, publicly available tool allowing users to assess whether image, video, or audio content was created by the provider's AI system. Applies to CS AI generating audio or video responses.",
+     scenario:"CS scenario: A CS system using AI-generated voice responses or video avatars must provide customers with a way to verify the content is AI-generated.",
+     why:"SB 942 applies to CS AI generating audio or video, including AI voice agents and virtual representatives. Text-only chatbots are currently outside scope, but the regulatory direction is clear.",
+     fine:"$5,000 per violation per day. One year of non-compliance: over $1.8 million per violation type."},
+    {art:"Section 22757.3",title:"Manifest disclosure - visible AI label",sev:"high",fw:"SB 942",
+     desc:"Customers must have the option to include a visible label on AI-generated content identifying it as AI-generated. The disclosure must be clear, conspicuous, and understandable.",
+     scenario:"CS scenario: An AI-generated customer service email or audio response must carry a visible disclosure that it is AI-generated, if the customer requests it.",
+     why:"The daily fine structure means delayed compliance is exponentially more expensive than immediate compliance. A 30-day delay costs $150,000 per violation type.",
+     fine:"$5,000 per violation per day."},
+    {art:"Section 22757.4",title:"Latent disclosure — watermarking",sev:"high",fw:"SB 942",
+     desc:"AI-generated image, video, or audio content must include a permanent embedded watermark containing the provider's name, the AI system used, timestamp, and a unique identifier.",
+     scenario:"CS scenario: An AI-generated voice response in a CS interaction must carry embedded metadata identifying it as AI-generated, even if the customer does not request the visible label.",
+     why:"Watermarking obligations require engineering work at the infrastructure level — not just a policy update. Organisations need lead time to implement before the deadline.",
+     fine:"$5,000 per violation per day."},
+  ]
+};
+
+function sevBadge(s){
+  const m={critical:'badge-critical',high:'badge-high',medium:'badge-medium',low:'badge-low'};
+  return `<span class="badge ${m[s]||'badge-low'}">${s}</span>`;
+}
+
+function renderArticles(key,cid){
+  const list=articles[key];
+  const el=document.getElementById(cid);
+  if(!el)return;
+  el.innerHTML=list.map((a,i)=>`
+    <div class="art-row" onclick="openModal('${key}',${i})">
+      <div>
+        <div class="art-code">${a.art}</div>
+        <div class="art-fw">${a.fw}</div>
+      </div>
+      <div>
+        <div class="art-title">${a.title}</div>
+        <div class="art-desc">${a.desc.substring(0,100)}${a.desc.length>100?'...':''}</div>
+      </div>
+      <div class="art-badges">
+        ${sevBadge(a.sev)}
+        <span class="art-view">view →</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openModal(key,idx){
+  const a=articles[key][idx];
+  document.getElementById('modalArt').textContent=a.art;
+  document.getElementById('modalTitle').textContent=a.title;
+  document.getElementById('modalFw').textContent=a.fw+' · '+a.sev.toUpperCase()+' SEVERITY';
+  document.getElementById('modalDesc').textContent=a.desc;
+  document.getElementById('modalScenario').textContent=a.scenario;
+  document.getElementById('modalWhy').textContent=a.why;
+  document.getElementById('modalFine').textContent=a.fine;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const m={overview:0,euaiact:1,gdpr:2,ccpa:3,sb942:4,compare:5,story:6};
+  if(m[id]!==undefined)document.querySelectorAll('.nav-item')[m[id]].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function globalSearch(){
+  const q=document.getElementById('globalSearch').value.toLowerCase().trim();
+  const results=document.getElementById('searchResults');
+  if(!q){results.innerHTML='';return;}
+  const all=[];
+  Object.entries(articles).forEach(([key,list])=>list.forEach((a,i)=>{
+    const txt=[a.art,a.title,a.desc,a.scenario,a.why,a.fine].join(' ').toLowerCase();
+    if(txt.includes(q))all.push({key,idx:i,a});
+  }));
+  if(!all.length){results.innerHTML='<div style="font-size:12px;color:var(--text-muted);padding:8px 0">No articles match your search.</div>';return;}
+  const fwColors={euaiact:'var(--indigo)',gdpr:'var(--coral)',ccpa:'var(--amber)',sb942:'var(--sage)'};
+  results.innerHTML=all.slice(0,6).map(({key,idx,a})=>`
+    <div onclick="showPanel('${key}');setTimeout(()=>openModal('${key}',${idx}),300)"
+      style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius-md);margin-bottom:6px;border:1.5px solid var(--border);transition:all .15s"
+      onmouseover="this.style.borderColor='var(--indigo)';this.style.background='var(--indigo-light)'"
+      onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface2)'">
+      <div>
+        <span style="font-family:var(--mono);font-size:11px;color:${fwColors[key]||'var(--indigo)'};font-weight:600">${a.art}</span>
+        <span style="font-size:13px;color:var(--text);margin-left:10px;font-weight:500">${a.title}</span>
+      </div>
+      <div style="display:flex;gap:6px">${sevBadge(a.sev)}</div>
+    </div>
+  `).join('');
+}
+
+renderArticles('euaiact','euaiact-articles');
+renderArticles('gdpr','gdpr-articles');
+renderArticles('ccpa','ccpa-articles');
+renderArticles('sb942','sb942-articles');
+</script>
+</body>
+</html>
